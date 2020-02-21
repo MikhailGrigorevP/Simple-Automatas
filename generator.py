@@ -40,6 +40,7 @@ class Generator:
         f.close()
         return self.__A
 
+    # повредить
     def damage(self):
         return random.random()
 
