@@ -1,0 +1,43 @@
+%start Map1::Type
+%class AppClass
+
+%map Map1
+%%
+// State		Transition		End State		Action(s)
+
+Default{
+                Alpha			    Error			{Unacceptable();}
+                Digit			    Error			{Unacceptable();}
+                Comma			    Error			{Unacceptable();}
+                OpenBracket			Error			{Unacceptable();}
+                CloseBracket		Error			{Unacceptable();}
+                WhiteSpace			Error			{Unacceptable();}
+                Semicolon			Error			{Unacceptable();}
+				Type		Type			{ClearSMC();}
+}
+
+Type {
+				Alpha [ ctxt.isValidType() ]			Type			{CounterInc();}
+				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces		{CounterZero();clearSubstring();}
+				EOS				                        OK				{Acceptable();}
+}
+
+WhiteSpaces {
+				Alpha			Name			{CounterInc();}
+				WhiteSpace		WhiteSpaces			{}
+				EOS				OK				{Acceptable();}
+}
+
+Name {
+				Alpha [ ctxt.isValidName() ]			Name			{CounterInc();}
+				Digit [ ctxt.isValidName() ]			Name			{CounterInc();}
+				EOS				OK				{Acceptable();}
+}
+
+OK {}
+
+Error {
+				EOS				nil				{Unacceptable();}
+}
+
+%%

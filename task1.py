@@ -21,18 +21,18 @@ class Recognizer:
         start_time = time.perf_counter()
         for i in range(len(self.__strings) - 1):
             # проверка на соответсвие РВ
-            if (re.match(r'((^(int|long|short))(\s+)(([^0-9]{1}[0-9a-zA-Z]{0,15})))((\s+)(\()((\s*)'
-                                   r'(int|long|short)(\s+)([^0-9]{1}[0-9a-zA-Z]{0,15})((\,)?))*(\)))(\;$)',
+            if (re.match(r'((^(int|long|short))(\s+)(([^0-9]{1}[0-9a-z]{0,15})))((\s+)(\()((\s*)'
+                                   r'(int|long|short)(\s+)([^0-9]{1}[0-9a-z]{0,15})((\,)?))*(\)))(\;$)',
                                    self.__strings[i])):
                 # запись в файл результатов проверки
                 self.__f.write(self.__strings[i] + ' - yes' + '\n')
                 # выхватываем название функции
-                result = re.findall(r'(([^0-9]{1}[0-9a-zA-Z]{0,15}))', self.__strings[i])[1][1]
+                result = re.findall(r'(([^0-9]{1}[0-9a-z]{0,15}))', self.__strings[i])[1][1]
                 # добавляем её в массив
                 self.__Over_A.append(result)
             else:
                 self.__f.write(self.__strings[i] + ' - no' + '\n')
-        f_time.write(str(i) + ' ' + str(time.perf_counter() - start_time)+'\n')
+        f_time.write(str(time.perf_counter() - start_time)+'\n')
         f_time.close()
 
     def get_file_content(self):
@@ -50,7 +50,7 @@ class Recognizer:
 
     def analyze_overload(self):
         counter_one = generator.Counter(self.__Over_A )
-        f_overload = open('overload.txt', 'w')
+        f_overload = open('overload1.txt', 'w')
         for item, count in counter_one.items():
             if count > 1:
                 f_overload.write(str(item) + ' - ' + str(count) + '\n')
