@@ -20,11 +20,16 @@ class Recognizer:
         f_time = open('time1.txt', 'a')
         start_time = time.perf_counter()
         for i in range(len(self.__strings) - 1):
+            # проверка на соответсвие РВ
             if (re.match(r'((^(int|long|short))(\s+)(([^0-9]{1}[0-9a-zA-Z]{0,15})))((\s+)(\()((\s*)'
                                    r'(int|long|short)(\s+)([^0-9]{1}[0-9a-zA-Z]{0,15})((\,)?))*(\)))(\;$)',
                                    self.__strings[i])):
+                # запись в файл результатов проверки
                 self.__f.write(self.__strings[i] + ' - yes' + '\n')
-                self.__Over_A.append((self.__strings[i].split())[1])
+                # выхватываем название функции
+                result = re.findall(r'(([^0-9]{1}[0-9a-zA-Z]{0,15}))', self.__strings[i])[1][1]
+                # добавляем её в массив
+                self.__Over_A.append(result)
             else:
                 self.__f.write(self.__strings[i] + ' - no' + '\n')
         f_time.write(str(i) + ' ' + str(time.perf_counter() - start_time)+'\n')

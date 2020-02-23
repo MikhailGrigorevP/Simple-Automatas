@@ -70,11 +70,11 @@ class Generator:
         symbols = ['(', ')', ', ', ';', ' ']
 
         if self.damage() < 0.90:
-           first_symbol = symbols[0]
-           last_symbol = symbols[1]
+            first_symbol = symbols[0]
+            last_symbol = symbols[1]
         else:
-           first_symbol = symbols[random.randrange(4)]
-           last_symbol = symbols[random.randrange(4)]
+            first_symbol = symbols[random.randrange(4)]
+            last_symbol = symbols[random.randrange(4)]
 
         return first_symbol + \
             ''.join((self.generate_type() + ' ' + self.generate_func_name() +
