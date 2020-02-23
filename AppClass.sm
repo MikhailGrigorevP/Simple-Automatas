@@ -18,7 +18,7 @@ Default{
 
 Type {
 				Alpha [ ctxt.isValidType() ]			Type			{CounterInc();}
-				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces		{CounterZero();clearSubstring();}
+				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces		{CounterZero(); clearSubstring();}
 				EOS				                        OK				{Acceptable();}
 }
 

@@ -3,8 +3,10 @@ import string
 import random
 
 
+
 class Generator:
     # атрибуты класса
+    __input_file = 'Input\\functions.txt'
 
     # методы класса
 
@@ -16,9 +18,9 @@ class Generator:
         self.__A = []
         # файл со всеми строками функций
         try:
-            self. __f = open('functions.txt')
+            self. __f = open(self.__input_file)
         except IOError as e:
-            self.__f = open('functions.txt', 'w')
+            self.__f = open(self.__input_file, 'w')
             self.generate_file()
 
     def __del__(self):
@@ -29,10 +31,10 @@ class Generator:
 
     def get_file_content(self):
         try:
-            f = open('functions.txt')
+            f = open(self.__input_file)
         except IOError as e:
             self.generate_file()
-            f = open('functions.txt')
+            f = open(self.__input_file)
 
         nf = f.read()
         self.__A = nf.split('\n')
@@ -95,5 +97,9 @@ class Generator:
     def generate_file(self):
         for _ in range(self.__n):
             self.__f.write(self.generate_string() + '\n')
+
+if __name__ == "__main__":
+
+    Generator()
 
 
