@@ -51,7 +51,7 @@ class Generator:
         type_name = ['int', 'short', 'long']
         func_type = type_name[random.randrange(3)]
         if self.damage() > 0.90:
-            func_type = ''.join(random.choice(string.ascii_lowercase) for _ in range(4))
+            func_type = ''.join(random.choice(string.ascii_letters) for _ in range(4))
         else:
             func_type = type_name[random.randrange(3)]
         return func_type
@@ -62,9 +62,9 @@ class Generator:
         if self.damage() > 0.90:
             first_sym = random.choice(string.digits)
         else:
-            first_sym = random.choice(string.ascii_lowercase)
+            first_sym = random.choice(string.ascii_letters)
         return first_sym +\
-            ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(func_name_length))
+            ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(func_name_length))
 
     # генерировать список параметров
     def generate_options_list(self):

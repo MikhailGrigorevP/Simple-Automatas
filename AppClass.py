@@ -23,7 +23,7 @@ class AppClass:
 	def CheckString(self, string):
 		self._fsm.Type()
 		for c in string:
-			if c.islower():
+			if c.isalpha():
 				self.__substring += c
 				self._fsm.Alpha()
 			elif c.isdigit():

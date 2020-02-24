@@ -14,6 +14,7 @@ class Recognizer:
 
 	def __init__(self, strings):
 		self.__f = open(self.__result_file, 'w')
+		# ДЛЯ SMC
 		self.__smc = AppClass.AppClass()
 		self.__strings = strings
 

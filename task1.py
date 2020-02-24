@@ -26,14 +26,14 @@ class Recognizer:
         count = 0
         for i in range(len(self.__strings) - 1):
             # проверка на соответсвие РВ
-            if (re.fullmatch(r'((^(int|long|short))(\s+)(([a-z][0-9a-z]{0,15})))((\s+)(\()((\s*)'
-                                   r'(int|long|short)(\s+)([a-z][0-9a-z]{0,15})((\,)?))*(\)))(\;$)',
+            if (re.fullmatch(r'((^(int|long|short))(\s+)(([a-z][0-9A-Za-z]{0,15})))((\s+)(\()((\s*)'
+                                   r'(int|long|short)(\s+)([a-z][0-9A-Za-z]{0,15})((\,)?))*(\)))(\;$)',
                                    self.__strings[i])):
                 count += 1
                 # запись в файл результатов проверки
                 self.__f.write(self.__strings[i] + ' - yes' + '\n')
                 # выхватываем название функции
-                result = re.findall(r'(([a-z][0-9a-z]{0,15}))', self.__strings[i])[1][1]
+                result = re.findall(r'(([a-z][0-9A-Za-z]{0,15}))', self.__strings[i])[1][1]
                 # добавляем её в массив
                 if self.__Over_A.get(result) is None:
                     self.__Over_A.setdefault(result, 1)
