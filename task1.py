@@ -2,58 +2,67 @@ import generator
 import re
 import time
 
+
 class Recognizer:
 
     __A = []
-    __Over_A = []
+    __Over_A = dict()
+    __result_file = 'Output\\Task1\\result.txt'
+    __time_file = 'Output\\Task1\\time.txt'
+    __overload_file = 'Output\\Task1\\overload.txt'
 
     def __init__(self, strings):
-        self.__f = open('result1.txt', 'w')
+        self.__f = open(self.__result_file, 'w')
         self.__strings = strings
 
     def __del__(self):
         self.__f.close()
 
     def check_strings(self):
-        f_time = open('time1.txt', 'w')
+        f_time = open(self.__time_file, 'w')
         f_time.write('iter time' + '\n')
-        f_time = open('time1.txt', 'a')
+        f_time = open(self.__time_file, 'a')
         start_time = time.perf_counter()
+        count = 0
         for i in range(len(self.__strings) - 1):
             # проверка на соответсвие РВ
-            if (re.match(r'((^(int|long|short))(\s+)(([^0-9]{1}[0-9a-z]{0,15})))((\s+)(\()((\s*)'
-                                   r'(int|long|short)(\s+)([^0-9]{1}[0-9a-z]{0,15})((\,)?))*(\)))(\;$)',
+            if (re.fullmatch(r'((^(int|long|short))(\s+)(([a-z][0-9a-z]{0,15})))((\s+)(\()((\s*)'
+                                   r'(int|long|short)(\s+)([a-z][0-9a-z]{0,15})((\,)?))*(\)))(\;$)',
                                    self.__strings[i])):
+                count += 1
                 # запись в файл результатов проверки
                 self.__f.write(self.__strings[i] + ' - yes' + '\n')
                 # выхватываем название функции
-                result = re.findall(r'(([^0-9]{1}[0-9a-z]{0,15}))', self.__strings[i])[1][1]
+                result = re.findall(r'(([a-z][0-9a-z]{0,15}))', self.__strings[i])[1][1]
                 # добавляем её в массив
-                self.__Over_A.append(result)
+                if self.__Over_A.get(result) is None:
+                    self.__Over_A.setdefault(result, 1)
+                else:
+                    self.__Over_A[result] += 1
             else:
                 self.__f.write(self.__strings[i] + ' - no' + '\n')
         f_time.write(str(time.perf_counter() - start_time)+'\n')
         f_time.close()
+        print(count)
 
     def get_file_content(self):
         try:
-            self.__f = open('result1.txt')
+            __f = open(self.__result_file)
         except IOError as e:
             self.check_strings()
-            self.__f = open('result1.txt')
+            __f = open(self.__result_file)
 
-        nf = self.__f.read()
+        nf = __f.read()
         self.__A = nf.split('\n')
 
-        self.__f.close()
+        __f.close()
         return self.__A
 
     def analyze_overload(self):
-        counter_one = generator.Counter(self.__Over_A )
-        f_overload = open('overload1.txt', 'w')
-        for item, count in counter_one.items():
-            if count > 1:
-                f_overload.write(str(item) + ' - ' + str(count) + '\n')
+        f_overload = open(self.__overload_file, 'w')
+        for key in self.__Over_A:
+            if self.__Over_A.get(key) > 1:
+                f_overload.write(str(key) + ' ' + str(self.__Over_A.get(key)) + '\n')
         f_overload.close()
 
 
@@ -63,6 +72,5 @@ if __name__ == "__main__":
     recognizer = Recognizer(all_strings)
 
     recognizer.check_strings()
-    A = recognizer.get_file_content()
     recognizer.analyze_overload()
 

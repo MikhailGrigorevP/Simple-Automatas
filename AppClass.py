@@ -1,12 +1,12 @@
-
 import AppClass_sm
+
 
 class AppClass:
 
 	def __init__(self):
 		self.__counter = 0;
 		self.__substring = ''
-		self.__c = ''
+		self.__name = ''
 		self._fsm = AppClass_sm.AppClass_sm(self)
 		self._is_acceptable = False
 		self._fsm.enterStartState()
@@ -15,6 +15,7 @@ class AppClass:
 		# self._fsm.setDebugFlag(True)
 
 	def ClearSMC(self):
+		self.__substring = ''
 		self.CounterZero()
 		self.clearSubstring()
 		self._is_acceptable = True
@@ -22,12 +23,11 @@ class AppClass:
 	def CheckString(self, string):
 		self._fsm.Type()
 		for c in string:
-			# if not self._is_acceptable:
-			# 	return self._is_acceptable
-			self.__substring += c
 			if c.islower():
+				self.__substring += c
 				self._fsm.Alpha()
 			elif c.isdigit():
+				self.__substring += c
 				self._fsm.Digit()
 			elif c == ',':
 				self._fsm.Comma()
@@ -42,7 +42,7 @@ class AppClass:
 			else:
 				self._fsm.Unknown()
 		self._fsm.EOS()
-		return self._is_acceptable
+		return self._is_acceptable, self.__name
 
 	def Acceptable(self):
 		self._is_acceptable = True
@@ -63,8 +63,12 @@ class AppClass:
 		return self.__counter <= 16
 
 	def checkType(self):
-		return self.__substring == "int " or self.__substring == "short " or self.__substring == "long "
+		return self.__substring == "int" or self.__substring == "short" or self.__substring == "long"
 
 	def clearSubstring(self):
 		self.__substring = ''
+
+	def set_name(self):
+		self.__name = self.__substring
+
 

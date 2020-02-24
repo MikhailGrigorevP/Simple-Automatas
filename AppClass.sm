@@ -6,35 +6,78 @@
 // State		Transition		End State		Action(s)
 
 Default{
-                Alpha			    Error			{Unacceptable();}
-                Digit			    Error			{Unacceptable();}
-                Comma			    Error			{Unacceptable();}
-                OpenBracket			Error			{Unacceptable();}
-                CloseBracket		Error			{Unacceptable();}
-                WhiteSpace			Error			{Unacceptable();}
-                Semicolon			Error			{Unacceptable();}
-				Type		Type			{ClearSMC();}
+                Alpha			    Error			{ Unacceptable(); }
+                Digit			    Error			{ Unacceptable(); }
+                OpenBracket			Error			{ Unacceptable(); }
+                CloseBracket		Error			{ Unacceptable(); }
+                Comma			    Error			{ Unacceptable(); }
+                WhiteSpace			Error			{ Unacceptable(); }
+                Semicolon			Error			{ Unacceptable(); }
+				EOS				    Error			{ Unacceptable(); }
+				Type		        Type			{ClearSMC();}
 }
 
 Type {
-				Alpha [ ctxt.isValidType() ]			Type			{CounterInc();}
-				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces		{CounterZero(); clearSubstring();}
-				EOS				                        OK				{Acceptable();}
+				Alpha [ ctxt.isValidType() ]			Type			        { CounterInc(); }
+				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces1    		{ CounterZero(); clearSubstring(); }
 }
 
-WhiteSpaces {
-				Alpha			Name			{CounterInc();}
-				WhiteSpace		WhiteSpaces			{}
-				EOS				OK				{Acceptable();}
+WhiteSpaces1 {
+				Alpha			FuncName		{ CounterInc(); }
+				WhiteSpace		WhiteSpaces1	{}
 }
 
-Name {
-				Alpha [ ctxt.isValidName() ]			Name			{CounterInc();}
-				Digit [ ctxt.isValidName() ]			Name			{CounterInc();}
-				EOS				OK				{Acceptable();}
+FuncName {
+				Alpha [ ctxt.isValidName() ]			FuncName			{ CounterInc(); }
+				Digit [ ctxt.isValidName() ]			FuncName			{ CounterInc(); }
+				WhiteSpace	    		                WhiteSpaces2    	{ CounterZero(); set_name(); clearSubstring(); }
+				OpenBracket		                        WhiteSpaces3	    { CounterZero(); set_name(); clearSubstring(); }
 }
 
-OK {}
+WhiteSpaces2 {
+				OpenBracket		WhiteSpaces3	    {}
+				WhiteSpace		WhiteSpaces2		{}
+				Alpha			Type2       		{ CounterZero(); CounterInc(); }
+}
+
+WhiteSpaces3 {
+				WhiteSpace		WhiteSpaces3		{}
+                CloseBracket	WhiteSpaces6		{}
+				Alpha			Type2       		{ CounterZero(); CounterInc(); }
+}
+
+Type2 {
+				Alpha [ ctxt.isValidType() ]			Type2			        { CounterInc(); }
+				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces4    		{ CounterZero(); clearSubstring(); }
+}
+
+WhiteSpaces4 {
+				WhiteSpace		WhiteSpaces4		{ clearSubstring(); }
+				Alpha			OverFuncName		{ CounterZero(); CounterInc(); }
+}
+
+OverFuncName {
+				Alpha [ ctxt.isValidName() ]			OverFuncName			{ CounterInc(); }
+				Digit [ ctxt.isValidName() ]			OverFuncName			{ CounterInc(); }
+				WhiteSpace	    		                WhiteSpaces5  	        { CounterZero(); clearSubstring(); }
+                CloseBracket		                    WhiteSpaces6		    { CounterZero(); clearSubstring(); }
+                Comma			                        WhiteSpaces3	        { CounterZero(); clearSubstring(); }
+}
+
+WhiteSpaces5 {
+				WhiteSpace		WhiteSpaces5		{}
+                CloseBracket	WhiteSpaces6		{}
+                Comma			WhiteSpaces3	    {}
+}
+
+WhiteSpaces6 {
+				WhiteSpace		WhiteSpaces6		{}
+				Semicolon		OK				    { Acceptable(); }
+}
+
+OK {
+                EOS				OK				{ Acceptable(); }
+}
 
 Error {
 				EOS				nil				{Unacceptable();}
