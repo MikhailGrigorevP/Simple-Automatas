@@ -12,7 +12,7 @@ class RecognizerPLY(object):
     __Over_A = dict()
 
     def __init__(self, from_file=False):
-        self.__parser = MyParser()
+        self.__parser = MyParser(from_file)
         self.__file = from_file
 
     def check_strings_from_file(self, data):
@@ -85,7 +85,7 @@ if __name__ == "__main__":
         if input_type == "file":
             print("Input filename:")
             filename = input()
-            generator.Generator(1000000, filename)
+            generator.Generator(10000, filename)
             recognizer = RecognizerPLY(True)
             recognizer.check_strings_from_file(filename)
             recognizer.analyze_overload()

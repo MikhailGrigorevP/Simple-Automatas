@@ -1,4 +1,6 @@
-int func (int one);
+short evUCzK (long He",]t/bmMv(wRF%, short zDbx}X#, int n9|hhF{`1^W^, int Dz<d), int d.5N.j+wr;short R*4$zkGu=_QI);
+long wGk+ (long Yv)t";tX4, short v$<;short w';long dgJ_.]6E)%5I, int GA!w1dlji6XUKEG, int cg)\dUL@, long XrSBUD~Jw, short Gh#G]5k0r,d);
+xFbz F5G`3)Dw (long k>(, int U\wRu]k)MTGI.?, short ywLq);
 long func (int one, short two);
 short func (int one);
 long      func             (    int      one   ,    short     two    )      ;
@@ -30,3 +32,6 @@ long  45y45y
 int 5y 4by
 short gfg
 int func(int
+sf
+nf
+int func

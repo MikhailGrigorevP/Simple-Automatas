@@ -6,8 +6,8 @@ class MyParser(object):
     tokens = MyLexer.tokens
     __Over_A = dict()
     __A = []
-    __overload_file = '..\\Task3\\overload.txt'
-    __result_file = '..\\Task3\\result.txt'
+    __overload_file = 'Task3/overload.txt'
+    __result_file = 'Task3/result.txt'
     count = 0
 
     def get_A(self):
@@ -20,13 +20,13 @@ class MyParser(object):
         if from_file:
             self.__f = open(self.__result_file, 'w')
 
-    def __del__(self):
-        if self.__file:
-            self.__f.close()
+    # def __del__(self):
 
     def check_string(self, code):
         result = self.parser.parse(code)
         print(self.count)
+        if self.__file:
+            self.__f.close()
         return result
 
     def p_func_list(self, p):
@@ -38,7 +38,7 @@ class MyParser(object):
             p[0] = p[1] + p[2]
 
     def p_func(self, p):
-        '''func : FUNCTYPE FUNCNAME PARAMETRS'''
+        '''func : FUNCTYPE FUNCNAME PARAMETRS NL'''
         if self.__file:
             self.__f.write(p[1] + p[2] + p[3] + ' - yes\n')
         if self.__Over_A.get(p[2]) is None:
@@ -48,20 +48,26 @@ class MyParser(object):
         self.count += 1
         p[0] = p[1] + p[2] + p[3] + ' - yes\n'
 
+    def p_func_zero_err_type(self, p):
+        'func : err_list NL'
+        if self.__file:
+            self.__f.write(p[1]+ ' - no\n')
+        p[0] = p[1] + ' - no\n'
+
     def p_func_first_err_type(self, p):
-        'func : FUNCTYPE err_list'
+        'func : FUNCTYPE err_list NL'
         if self.__file:
             self.__f.write(p[1] + p[2] + ' - no\n')
         p[0] = p[1] + p[2] + ' - no\n'
 
     def p_func_second_err_type(self, p):
-        'func : FUNCTYPE FUNCNAME err_list'
+        'func : FUNCTYPE FUNCNAME err_list NL'
         if self.__file:
             self.__f.write(p[1] + p[2] + p[3] +' - no\n')
         p[0] = p[1] + p[2] + p[3] + ' - no\n'
 
     def p_func_forth_err_type(self, p):
-        'func : FUNCTYPE FUNCNAME PARAMETRS err_list'
+        'func : FUNCTYPE FUNCNAME PARAMETRS err_list NL'
         if self.__file:
             self.__f.write(p[1] + p[2] + p[3] + p[4] + ' - no\n')
         p[0] = p[1] + p[2] + p[3] + p[4] + ' - no\n'
@@ -79,8 +85,7 @@ class MyParser(object):
 
     def p_err(self, p):
         '''err : ANY'''
-        if len(p) == 2:
-            p[0] = p[1]
+        p[0] = p[1]
 
     # system
     def p_error(self, p):

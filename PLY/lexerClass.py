@@ -11,10 +11,11 @@ class MyLexer(object):
     )
 
     tokens = (
-        'FUNCTYPE', 'ANY', 'FUNCNAME', 'PARAMETRS',
+        'FUNCTYPE', 'ANY', 'NL', 'FUNCNAME', 'PARAMETRS',
     )
 
-    t_ANY = r'.'
+
+    t_ANY = r'(.)'
 
     def t_FUNCTYPE(self, t):
         r'(?m)^(int|long|short)\s+'
@@ -22,6 +23,11 @@ class MyLexer(object):
             t.lexer.begin('tail')  # переходим в начальное состояние
         else:
             t.lexer.begin('name')  # парсим строку
+        return t
+
+    def t_NL(self, t):
+        r'(\n)'
+        t.lexer.lineno += len(t.value)
         return t
 
     def t_name_FUNCNAME(self, t):
@@ -35,6 +41,13 @@ class MyLexer(object):
     def t_name_ANY(self, t):
         r'(.)'
         t.lexer.begin('INITIAL')  # переходим в начальное состояние
+        return t
+
+    def t_name_NL(self, t):
+        r'(\n)'
+        t.lexer.lineno += len(t.value)
+        t.lexer.begin('INITIAL')
+        return t
 
     def t_tail_PARAMETRS(self, t):
         r'\s*\((\s*(int|long|short)\s+[a-zA-Z][a-zA-Z0-9]{0,15}\s*,?)*\)\s*;'
@@ -44,11 +57,19 @@ class MyLexer(object):
     def t_tail_ANY(self, t):
         r'.'
         t.lexer.begin('INITIAL')  # переходим в начальное состояние
+        return t
+
+    def t_tail_NL(self, t):
+        r'(\n)'
+        t.lexer.lineno += len(t.value)
+        t.lexer.begin('INITIAL')
+        return t
+
 
     # говорим что ничего не будем игнорировать
     t_name_ignore = ''  # это кстати обязательная переменная, без неё нельзя создать новый state
     t_tail_ignore = ''  # это кстати обязательная переменная, без неё нельзя создать новый state
-    t_ignore = ' \r\t\f'
+    t_ignore = ''
 
     # ну и куда же мы без обработки ошибок
     def t_name_error(self, t):
@@ -62,25 +83,10 @@ class MyLexer(object):
         # t.lexer.skip(1)
         t.lexer.begin('INITIAL')
 
-    def t_name_newline(self, t):
-        r'\n'
-        t.lexer.lineno += len(t.value)
-        t.lexer.begin('INITIAL')
-
-    def t_tail_newline(self, t):
-        r'\n'
-        t.lexer.lineno += len(t.value)
-        t.lexer.begin('INITIAL')
-
     # а здесь мы обрабатываем ошибки. Кстати заметьте формат названия функции
     def t_tail_error(self, t):
         print("Illegal character in TAIL'%s'" % t.value[0])
         # t.lexer.skip(1)
-        t.lexer.begin('INITIAL')
-
-    def t_newline(self, t):
-        r'\n'
-        t.lexer.lineno += len(t.value)
         t.lexer.begin('INITIAL')
 
     def input(self, data):

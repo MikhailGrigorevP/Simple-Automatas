@@ -5,27 +5,29 @@ Grammar
 Rule 0     S' -> func_list
 Rule 1     func_list -> func
 Rule 2     func_list -> func_list func
-Rule 3     func -> FUNCTYPE FUNCNAME PARAMETRS
-Rule 4     func -> FUNCTYPE err_list
-Rule 5     func -> FUNCTYPE FUNCNAME err_list
-Rule 6     func -> FUNCTYPE FUNCNAME PARAMETRS err_list
-Rule 7     err_list -> <empty>
-Rule 8     err_list -> err
-Rule 9     err_list -> err_list err
-Rule 10    err -> ANY
+Rule 3     func -> FUNCTYPE FUNCNAME PARAMETRS NL
+Rule 4     func -> err_list NL
+Rule 5     func -> FUNCTYPE err_list NL
+Rule 6     func -> FUNCTYPE FUNCNAME err_list NL
+Rule 7     func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL
+Rule 8     err_list -> <empty>
+Rule 9     err_list -> err
+Rule 10    err_list -> err_list err
+Rule 11    err -> ANY
 
 Terminals, with rules where they appear
 
-ANY                  : 10
-FUNCNAME             : 3 5 6
-FUNCTYPE             : 3 4 5 6
-PARAMETRS            : 3 6
+ANY                  : 11
+FUNCNAME             : 3 6 7
+FUNCTYPE             : 3 5 6 7
+NL                   : 3 4 5 6 7
+PARAMETRS            : 3 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-err                  : 8 9
-err_list             : 4 5 6 9
+err                  : 9 10
+err_list             : 4 5 6 7 10
 func                 : 1 2
 func_list            : 2 0
 
@@ -36,178 +38,257 @@ state 0
     (0) S' -> . func_list
     (1) func_list -> . func
     (2) func_list -> . func_list func
-    (3) func -> . FUNCTYPE FUNCNAME PARAMETRS
-    (4) func -> . FUNCTYPE err_list
-    (5) func -> . FUNCTYPE FUNCNAME err_list
-    (6) func -> . FUNCTYPE FUNCNAME PARAMETRS err_list
+    (3) func -> . FUNCTYPE FUNCNAME PARAMETRS NL
+    (4) func -> . err_list NL
+    (5) func -> . FUNCTYPE err_list NL
+    (6) func -> . FUNCTYPE FUNCNAME err_list NL
+    (7) func -> . FUNCTYPE FUNCNAME PARAMETRS err_list NL
+    (8) err_list -> .
+    (9) err_list -> . err
+    (10) err_list -> . err_list err
+    (11) err -> . ANY
 
+  ! shift/reduce conflict for ANY resolved as shift
     FUNCTYPE        shift and go to state 3
+    NL              reduce using rule 8 (err_list -> .)
+    ANY             shift and go to state 6
+
+  ! ANY             [ reduce using rule 8 (err_list -> .) ]
 
     func_list                      shift and go to state 1
     func                           shift and go to state 2
+    err_list                       shift and go to state 4
+    err                            shift and go to state 5
 
 state 1
 
     (0) S' -> func_list .
     (2) func_list -> func_list . func
-    (3) func -> . FUNCTYPE FUNCNAME PARAMETRS
-    (4) func -> . FUNCTYPE err_list
-    (5) func -> . FUNCTYPE FUNCNAME err_list
-    (6) func -> . FUNCTYPE FUNCNAME PARAMETRS err_list
+    (3) func -> . FUNCTYPE FUNCNAME PARAMETRS NL
+    (4) func -> . err_list NL
+    (5) func -> . FUNCTYPE err_list NL
+    (6) func -> . FUNCTYPE FUNCNAME err_list NL
+    (7) func -> . FUNCTYPE FUNCNAME PARAMETRS err_list NL
+    (8) err_list -> .
+    (9) err_list -> . err
+    (10) err_list -> . err_list err
+    (11) err -> . ANY
 
+  ! shift/reduce conflict for ANY resolved as shift
     FUNCTYPE        shift and go to state 3
+    NL              reduce using rule 8 (err_list -> .)
+    ANY             shift and go to state 6
 
-    func                           shift and go to state 4
+  ! ANY             [ reduce using rule 8 (err_list -> .) ]
+
+    func                           shift and go to state 7
+    err_list                       shift and go to state 4
+    err                            shift and go to state 5
 
 state 2
 
     (1) func_list -> func .
 
     FUNCTYPE        reduce using rule 1 (func_list -> func .)
+    ANY             reduce using rule 1 (func_list -> func .)
     $end            reduce using rule 1 (func_list -> func .)
+    NL              reduce using rule 1 (func_list -> func .)
 
 
 state 3
 
-    (3) func -> FUNCTYPE . FUNCNAME PARAMETRS
-    (4) func -> FUNCTYPE . err_list
-    (5) func -> FUNCTYPE . FUNCNAME err_list
-    (6) func -> FUNCTYPE . FUNCNAME PARAMETRS err_list
-    (7) err_list -> .
-    (8) err_list -> . err
-    (9) err_list -> . err_list err
-    (10) err -> . ANY
+    (3) func -> FUNCTYPE . FUNCNAME PARAMETRS NL
+    (5) func -> FUNCTYPE . err_list NL
+    (6) func -> FUNCTYPE . FUNCNAME err_list NL
+    (7) func -> FUNCTYPE . FUNCNAME PARAMETRS err_list NL
+    (8) err_list -> .
+    (9) err_list -> . err
+    (10) err_list -> . err_list err
+    (11) err -> . ANY
 
   ! shift/reduce conflict for ANY resolved as shift
-    FUNCNAME        shift and go to state 5
-    FUNCTYPE        reduce using rule 7 (err_list -> .)
-    $end            reduce using rule 7 (err_list -> .)
-    ANY             shift and go to state 8
+    FUNCNAME        shift and go to state 8
+    NL              reduce using rule 8 (err_list -> .)
+    ANY             shift and go to state 6
 
-  ! ANY             [ reduce using rule 7 (err_list -> .) ]
+  ! ANY             [ reduce using rule 8 (err_list -> .) ]
 
-    err_list                       shift and go to state 6
-    err                            shift and go to state 7
+    err_list                       shift and go to state 9
+    err                            shift and go to state 5
 
 state 4
+
+    (4) func -> err_list . NL
+    (10) err_list -> err_list . err
+    (11) err -> . ANY
+
+    NL              shift and go to state 10
+    ANY             shift and go to state 6
+
+    err                            shift and go to state 11
+
+state 5
+
+    (9) err_list -> err .
+
+    NL              reduce using rule 9 (err_list -> err .)
+    ANY             reduce using rule 9 (err_list -> err .)
+
+
+state 6
+
+    (11) err -> ANY .
+
+    NL              reduce using rule 11 (err -> ANY .)
+    ANY             reduce using rule 11 (err -> ANY .)
+
+
+state 7
 
     (2) func_list -> func_list func .
 
     FUNCTYPE        reduce using rule 2 (func_list -> func_list func .)
+    ANY             reduce using rule 2 (func_list -> func_list func .)
     $end            reduce using rule 2 (func_list -> func_list func .)
-
-
-state 5
-
-    (3) func -> FUNCTYPE FUNCNAME . PARAMETRS
-    (5) func -> FUNCTYPE FUNCNAME . err_list
-    (6) func -> FUNCTYPE FUNCNAME . PARAMETRS err_list
-    (7) err_list -> .
-    (8) err_list -> . err
-    (9) err_list -> . err_list err
-    (10) err -> . ANY
-
-  ! shift/reduce conflict for ANY resolved as shift
-    PARAMETRS       shift and go to state 9
-    FUNCTYPE        reduce using rule 7 (err_list -> .)
-    $end            reduce using rule 7 (err_list -> .)
-    ANY             shift and go to state 8
-
-  ! ANY             [ reduce using rule 7 (err_list -> .) ]
-
-    err_list                       shift and go to state 10
-    err                            shift and go to state 7
-
-state 6
-
-    (4) func -> FUNCTYPE err_list .
-    (9) err_list -> err_list . err
-    (10) err -> . ANY
-
-    FUNCTYPE        reduce using rule 4 (func -> FUNCTYPE err_list .)
-    $end            reduce using rule 4 (func -> FUNCTYPE err_list .)
-    ANY             shift and go to state 8
-
-    err                            shift and go to state 11
-
-state 7
-
-    (8) err_list -> err .
-
-    ANY             reduce using rule 8 (err_list -> err .)
-    FUNCTYPE        reduce using rule 8 (err_list -> err .)
-    $end            reduce using rule 8 (err_list -> err .)
+    NL              reduce using rule 2 (func_list -> func_list func .)
 
 
 state 8
 
-    (10) err -> ANY .
+    (3) func -> FUNCTYPE FUNCNAME . PARAMETRS NL
+    (6) func -> FUNCTYPE FUNCNAME . err_list NL
+    (7) func -> FUNCTYPE FUNCNAME . PARAMETRS err_list NL
+    (8) err_list -> .
+    (9) err_list -> . err
+    (10) err_list -> . err_list err
+    (11) err -> . ANY
 
-    ANY             reduce using rule 10 (err -> ANY .)
-    FUNCTYPE        reduce using rule 10 (err -> ANY .)
-    $end            reduce using rule 10 (err -> ANY .)
+  ! shift/reduce conflict for ANY resolved as shift
+    PARAMETRS       shift and go to state 12
+    NL              reduce using rule 8 (err_list -> .)
+    ANY             shift and go to state 6
 
+  ! ANY             [ reduce using rule 8 (err_list -> .) ]
+
+    err_list                       shift and go to state 13
+    err                            shift and go to state 5
 
 state 9
 
-    (3) func -> FUNCTYPE FUNCNAME PARAMETRS .
-    (6) func -> FUNCTYPE FUNCNAME PARAMETRS . err_list
-    (7) err_list -> .
-    (8) err_list -> . err
-    (9) err_list -> . err_list err
-    (10) err -> . ANY
+    (5) func -> FUNCTYPE err_list . NL
+    (10) err_list -> err_list . err
+    (11) err -> . ANY
 
-  ! reduce/reduce conflict for FUNCTYPE resolved using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS .)
-  ! reduce/reduce conflict for $end resolved using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS .)
-  ! shift/reduce conflict for ANY resolved as shift
-    FUNCTYPE        reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS .)
-    $end            reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS .)
-    ANY             shift and go to state 8
-
-  ! ANY             [ reduce using rule 7 (err_list -> .) ]
-  ! FUNCTYPE        [ reduce using rule 7 (err_list -> .) ]
-  ! $end            [ reduce using rule 7 (err_list -> .) ]
-
-    err_list                       shift and go to state 12
-    err                            shift and go to state 7
-
-state 10
-
-    (5) func -> FUNCTYPE FUNCNAME err_list .
-    (9) err_list -> err_list . err
-    (10) err -> . ANY
-
-    FUNCTYPE        reduce using rule 5 (func -> FUNCTYPE FUNCNAME err_list .)
-    $end            reduce using rule 5 (func -> FUNCTYPE FUNCNAME err_list .)
-    ANY             shift and go to state 8
+    NL              shift and go to state 14
+    ANY             shift and go to state 6
 
     err                            shift and go to state 11
 
+state 10
+
+    (4) func -> err_list NL .
+
+    FUNCTYPE        reduce using rule 4 (func -> err_list NL .)
+    ANY             reduce using rule 4 (func -> err_list NL .)
+    $end            reduce using rule 4 (func -> err_list NL .)
+    NL              reduce using rule 4 (func -> err_list NL .)
+
+
 state 11
 
-    (9) err_list -> err_list err .
+    (10) err_list -> err_list err .
 
-    ANY             reduce using rule 9 (err_list -> err_list err .)
-    FUNCTYPE        reduce using rule 9 (err_list -> err_list err .)
-    $end            reduce using rule 9 (err_list -> err_list err .)
+    NL              reduce using rule 10 (err_list -> err_list err .)
+    ANY             reduce using rule 10 (err_list -> err_list err .)
 
 
 state 12
 
-    (6) func -> FUNCTYPE FUNCNAME PARAMETRS err_list .
-    (9) err_list -> err_list . err
-    (10) err -> . ANY
+    (3) func -> FUNCTYPE FUNCNAME PARAMETRS . NL
+    (7) func -> FUNCTYPE FUNCNAME PARAMETRS . err_list NL
+    (8) err_list -> .
+    (9) err_list -> . err
+    (10) err_list -> . err_list err
+    (11) err -> . ANY
 
-    FUNCTYPE        reduce using rule 6 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list .)
-    $end            reduce using rule 6 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list .)
-    ANY             shift and go to state 8
+  ! shift/reduce conflict for NL resolved as shift
+  ! shift/reduce conflict for ANY resolved as shift
+    NL              shift and go to state 15
+    ANY             shift and go to state 6
+
+  ! NL              [ reduce using rule 8 (err_list -> .) ]
+  ! ANY             [ reduce using rule 8 (err_list -> .) ]
+
+    err_list                       shift and go to state 16
+    err                            shift and go to state 5
+
+state 13
+
+    (6) func -> FUNCTYPE FUNCNAME err_list . NL
+    (10) err_list -> err_list . err
+    (11) err -> . ANY
+
+    NL              shift and go to state 17
+    ANY             shift and go to state 6
 
     err                            shift and go to state 11
+
+state 14
+
+    (5) func -> FUNCTYPE err_list NL .
+
+    FUNCTYPE        reduce using rule 5 (func -> FUNCTYPE err_list NL .)
+    ANY             reduce using rule 5 (func -> FUNCTYPE err_list NL .)
+    $end            reduce using rule 5 (func -> FUNCTYPE err_list NL .)
+    NL              reduce using rule 5 (func -> FUNCTYPE err_list NL .)
+
+
+state 15
+
+    (3) func -> FUNCTYPE FUNCNAME PARAMETRS NL .
+
+    FUNCTYPE        reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS NL .)
+    ANY             reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS NL .)
+    $end            reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS NL .)
+    NL              reduce using rule 3 (func -> FUNCTYPE FUNCNAME PARAMETRS NL .)
+
+
+state 16
+
+    (7) func -> FUNCTYPE FUNCNAME PARAMETRS err_list . NL
+    (10) err_list -> err_list . err
+    (11) err -> . ANY
+
+    NL              shift and go to state 18
+    ANY             shift and go to state 6
+
+    err                            shift and go to state 11
+
+state 17
+
+    (6) func -> FUNCTYPE FUNCNAME err_list NL .
+
+    FUNCTYPE        reduce using rule 6 (func -> FUNCTYPE FUNCNAME err_list NL .)
+    ANY             reduce using rule 6 (func -> FUNCTYPE FUNCNAME err_list NL .)
+    $end            reduce using rule 6 (func -> FUNCTYPE FUNCNAME err_list NL .)
+    NL              reduce using rule 6 (func -> FUNCTYPE FUNCNAME err_list NL .)
+
+
+state 18
+
+    (7) func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL .
+
+    FUNCTYPE        reduce using rule 7 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL .)
+    ANY             reduce using rule 7 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL .)
+    $end            reduce using rule 7 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL .)
+    NL              reduce using rule 7 (func -> FUNCTYPE FUNCNAME PARAMETRS err_list NL .)
+
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
+WARNING: shift/reduce conflict for ANY in state 0 resolved as shift
+WARNING: shift/reduce conflict for ANY in state 1 resolved as shift
 WARNING: shift/reduce conflict for ANY in state 3 resolved as shift
-WARNING: shift/reduce conflict for ANY in state 5 resolved as shift
-WARNING: shift/reduce conflict for ANY in state 9 resolved as shift
-WARNING: reduce/reduce conflict in state 9 resolved using rule (func -> FUNCTYPE FUNCNAME PARAMETRS)
-WARNING: rejected rule (err_list -> <empty>) in state 9
+WARNING: shift/reduce conflict for ANY in state 8 resolved as shift
+WARNING: shift/reduce conflict for NL in state 12 resolved as shift
+WARNING: shift/reduce conflict for ANY in state 12 resolved as shift
