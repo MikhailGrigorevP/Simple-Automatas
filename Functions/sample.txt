@@ -22,4 +22,5 @@ short func (int one);()
 short func ();ergerg
 short func ();;
 short func (int ofne);
-
+short
+inr
