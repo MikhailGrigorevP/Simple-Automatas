@@ -48,12 +48,6 @@ class MyParser(object):
         self.count += 1
         p[0] = p[1] + p[2] + p[3] + ' - yes\n'
 
-    def p_func_first_err_type_1(self, p):
-        'func : FUNCTYPE'
-        if self.__file:
-            self.__f.write(p[1] + ' - no\n')
-        p[0] = p[1] + ' - no\n'
-
     def p_func_first_err_type(self, p):
         'func : FUNCTYPE err_list'
         if self.__file:
@@ -77,15 +71,16 @@ class MyParser(object):
         | err
         | err_list err'''
         if len(p) == 1:
-            p[0] = ''
+            p[0] = ""
         elif len(p) == 2:
             p[0] = p[1]
         elif len(p) == 3:
             p[0] = p[1] + p[2]
 
     def p_err(self, p):
-        'err : ANY'
-        p[0] = p[1]
+        '''err : ANY'''
+        if len(p) == 2:
+            p[0] = p[1]
 
     # system
     def p_error(self, p):

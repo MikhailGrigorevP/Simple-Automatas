@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ANY FUNCNAME FUNCTYPE PARAMETRSfunc_list : func\n        | func_list func func : FUNCTYPE FUNCNAME PARAMETRSfunc : FUNCTYPEfunc : FUNCTYPE err_listfunc : FUNCTYPE FUNCNAME err_listfunc : FUNCTYPE FUNCNAME PARAMETRS err_listerr_list :\n        | err\n        | err_list errerr : ANY'
+_lr_signature = 'ANY FUNCNAME FUNCTYPE PARAMETRSfunc_list : func\n        | func_list func func : FUNCTYPE FUNCNAME PARAMETRSfunc : FUNCTYPE err_listfunc : FUNCTYPE FUNCNAME err_listfunc : FUNCTYPE FUNCNAME PARAMETRS err_listerr_list :\n        | err\n        | err_list errerr : ANY'
     
-_lr_action_items = {'FUNCTYPE':([0,1,2,3,4,5,6,7,8,9,10,11,12,],[3,3,-1,-4,-2,-8,-5,-9,-11,-3,-6,-10,-7,]),'$end':([1,2,3,4,5,6,7,8,9,10,11,12,],[0,-1,-4,-2,-8,-5,-9,-11,-3,-6,-10,-7,]),'FUNCNAME':([3,],[5,]),'ANY':([3,5,6,7,8,9,10,11,12,],[8,8,8,-9,-11,8,8,-10,8,]),'PARAMETRS':([5,],[9,]),}
+_lr_action_items = {'FUNCTYPE':([0,1,2,3,4,5,6,7,8,9,10,11,12,],[3,3,-1,-7,-2,-7,-4,-8,-10,-3,-5,-9,-6,]),'$end':([1,2,3,4,5,6,7,8,9,10,11,12,],[0,-1,-7,-2,-7,-4,-8,-10,-3,-5,-9,-6,]),'FUNCNAME':([3,],[5,]),'ANY':([3,5,6,7,8,9,10,11,12,],[8,8,8,-8,-10,8,8,-9,8,]),'PARAMETRS':([5,],[9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -30,12 +30,11 @@ _lr_productions = [
   ('func_list -> func','func_list',1,'p_func_list','parserClass.py',33),
   ('func_list -> func_list func','func_list',2,'p_func_list','parserClass.py',34),
   ('func -> FUNCTYPE FUNCNAME PARAMETRS','func',3,'p_func','parserClass.py',41),
-  ('func -> FUNCTYPE','func',1,'p_func_first_err_type_1','parserClass.py',52),
-  ('func -> FUNCTYPE err_list','func',2,'p_func_first_err_type','parserClass.py',58),
-  ('func -> FUNCTYPE FUNCNAME err_list','func',3,'p_func_second_err_type','parserClass.py',64),
-  ('func -> FUNCTYPE FUNCNAME PARAMETRS err_list','func',4,'p_func_forth_err_type','parserClass.py',70),
-  ('err_list -> <empty>','err_list',0,'p_err_list','parserClass.py',76),
-  ('err_list -> err','err_list',1,'p_err_list','parserClass.py',77),
-  ('err_list -> err_list err','err_list',2,'p_err_list','parserClass.py',78),
-  ('err -> ANY','err',1,'p_err','parserClass.py',87),
+  ('func -> FUNCTYPE err_list','func',2,'p_func_first_err_type','parserClass.py',52),
+  ('func -> FUNCTYPE FUNCNAME err_list','func',3,'p_func_second_err_type','parserClass.py',58),
+  ('func -> FUNCTYPE FUNCNAME PARAMETRS err_list','func',4,'p_func_forth_err_type','parserClass.py',64),
+  ('err_list -> <empty>','err_list',0,'p_err_list','parserClass.py',70),
+  ('err_list -> err','err_list',1,'p_err_list','parserClass.py',71),
+  ('err_list -> err_list err','err_list',2,'p_err_list','parserClass.py',72),
+  ('err -> ANY','err',1,'p_err','parserClass.py',81),
 ]
