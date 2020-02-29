@@ -42,7 +42,10 @@ class AppClass:
 			else:
 				self._fsm.Unknown()
 		self._fsm.EOS()
-		return self._is_acceptable, self.__name
+		if self._is_acceptable:
+			return self.__name
+		else:
+			return None
 
 	def Acceptable(self):
 		self._is_acceptable = True

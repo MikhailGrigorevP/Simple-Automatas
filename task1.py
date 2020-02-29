@@ -11,7 +11,7 @@ class RecognizerRE:
     __overload_file = 'Task1\\overload.txt'
     __file = False
 
-    def __init__(self, from_file = False, strings = None):
+    def __init__(self, from_file=False, strings=None):
         self.__file = from_file
         if from_file:
             self.__f = open(self.__result_file, 'w')
@@ -24,7 +24,7 @@ class RecognizerRE:
     def check_strings_from_console(self):
         self.__Over_A.clear()
         working = True
-        print('Input your line or exit" to exit:')
+        print('Input your line or "exit" to exit:')
 
         while working:
             user_string = input()
@@ -95,6 +95,12 @@ class RecognizerRE:
         __f.close()
         return self.__A
 
+    def get_Over(self):
+        return self.__Over_A
+
+    def get_Time(self):
+        return self.__time_file
+
     def analyze_overload(self):
         f_overload = open(self.__overload_file, 'w')
         for key in self.__Over_A:
@@ -119,6 +125,22 @@ if __name__ == "__main__":
             recognizer.check_strings_from_file()
             recognizer.analyze_overload()
             print("Data saved to files")
+            print("Show statistic (yes to show):")
+            input_show = input()
+            if input_show == "yes":
+                Over_A = recognizer.get_Over()
+                for key in Over_A:
+                    if Over_A.get(key) > 1:
+                        print(str(key) + ' ' + str(Over_A.get(key)) + '\n')
+                try:
+                    f = open(recognizer.get_Time())
+                    nf = f.read()
+                    print("Time:", nf.split('\n')[1])
+
+                    f.close()
+                except IOError as e:
+                    print("---- Error ----")
+
         elif input_type == "console":
             recognizer = RecognizerRE()
             recognizer.check_strings_from_console()
