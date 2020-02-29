@@ -1,0 +1,25 @@
+int func (int one);
+long func (int one, short two);
+short func (int one);
+long      func             (    int      one   ,    short     two    )      ;
+short funcfuncfuncfunc (int one);
+short funcfuncfuncfunc (int oneoneoneoneoneone);
+short funcfuncfuncfuncf (int one);
+shortd func (int one);
+short func (idt one);
+short func (int 4one);
+short 4func (int one);
+short func ();
+short func (int one)
+short func int one;
+short (int one);
+short func (one);
+short func (int );
+short func (int one3.f);
+crf func (3int one);
+short ( func (int one);
+short func (int one);()
+short func ();ergerg
+short func ();;
+short func (int ofne);
+

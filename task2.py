@@ -1,16 +1,16 @@
 import generator
 import re
 import time
-import AppClass
+from SMC import AppClass
 
 
-class Recognizer:
+class RecognizerSMC:
 
 	__A = []
 	__Over_A = dict()
-	__result_file = 'Output\\Task2\\result.txt'
-	__time_file = 'Output\\Task2\\time.txt'
-	__overload_file = 'Output\\Task2\\overload.txt'
+	__result_file = 'Task2\\result.txt'
+	__time_file = 'Task2\\time.txt'
+	__overload_file = 'Task2\\overload.txt'
 
 	def __init__(self, strings):
 		self.__f = open(self.__result_file, 'w')
@@ -20,7 +20,6 @@ class Recognizer:
 
 	def __del__(self):
 		self.__f.close()
-
 
 	def check_strings(self):
 		f_time = open(self.__time_file, 'w')
@@ -67,7 +66,7 @@ class Recognizer:
 if __name__ == "__main__":
 
 	all_strings = generator.Generator().get_file_content()
-	recognizer = Recognizer(all_strings)
+	recognizer = RecognizerSMC(all_strings)
 
 	recognizer.check_strings()
 	recognizer.analyze_overload()
