@@ -23,6 +23,9 @@ class AppClass:
 	def CheckString(self, string):
 		self._fsm.Type()
 		for c in string:
+			# break
+			if not self._is_acceptable:
+				break
 			if c.isalpha():
 				self.__substring += c
 				self._fsm.Alpha()
