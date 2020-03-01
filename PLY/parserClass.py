@@ -16,13 +16,13 @@ class MyParser(object):
     def __init__(self, from_file=False):
         self.__file = from_file
         self.lexer = MyLexer()
-        self.parser = yacc.yacc(module=self, optimize=True, debug=False, write_tables=False)
-        if from_file:
-            self.__f = open(self.__result_file, 'w')
+        self.parser = yacc.yacc(module=self, optimize=1, debug=False, write_tables=False)
 
     # def __del__(self):
 
     def check_string(self, code):
+        if self.__file:
+            self.__f = open(self.__result_file, 'w')
         result = self.parser.parse(code)
         print(self.count)
         if self.__file:
@@ -33,9 +33,9 @@ class MyParser(object):
         '''func_list : func
         | func_list func '''
         # if len(p) == 2:
-         #    p[0] = p[1]
+        #    p[0] = p[1]
         # elif len(p) == 3:
-         #    p[0] = p[1] + p[2]
+        #    p[0] = p[1] + p[2]
 
     def p_func(self, p):
         '''func : FUNCTYPE FUNCNAME PARAMETRS NL'''
@@ -72,16 +72,17 @@ class MyParser(object):
             self.__f.write(p[1] + p[2] + p[3] + p[4] + ' - no\n')
         # p[0] = p[1] + p[2] + p[3] + p[4] + ' - no\n'
 
-    def p_err_list(self, p):
-        '''err_list :
-        | err
-        | err_list err'''
-        if len(p) == 3:
-            p[0] = p[1] + p[2]
-        elif len(p) == 2:
-            p[0] = p[1]
-        else:
-            p[0] = ""
+    def p_err_list_type3(self, p):
+        '''err_list : err_list err'''
+        p[0] = p[1]
+        p[0] += p[2]
+
+    def p_err_list_type1(self, p):
+        '''err_list : '''
+
+    def p_err_list_type2(self, p):
+        '''err_list : err'''
+        p[0] = p[1]
 
     def p_err(self, p):
         '''err : ANY'''

@@ -14,15 +14,14 @@ class MyLexer(object):
         'FUNCTYPE', 'ANY', 'NL', 'FUNCNAME', 'PARAMETRS',
     )
 
-
     t_ANY = r'(.)'
 
     def t_FUNCTYPE(self, t):
         r'(?m)^(int|long|short)\s+'
         if t.lexer.current_state() == 'name':
-            t.lexer.begin('tail')  # переходим в начальное состояние
+            t.lexer.begin('tail')
         else:
-            t.lexer.begin('name')  # парсим строку
+            t.lexer.begin('name')
         return t
 
     def t_NL(self, t):
@@ -33,14 +32,14 @@ class MyLexer(object):
     def t_name_FUNCNAME(self, t):
         r'[a-zA-Z][a-zA-Z0-9]{0,15}'
         if t.lexer.current_state() == 'tail':
-            t.lexer.begin('INITIAL')  # переходим в начальное состояние
+            t.lexer.begin('INITIAL')
         else:
-            t.lexer.begin('tail')  # парсим строку
+            t.lexer.begin('tail')
         return t
 
     def t_name_ANY(self, t):
         r'(.)'
-        t.lexer.begin('INITIAL')  # переходим в начальное состояние
+        t.lexer.begin('INITIAL')
         return t
 
     def t_name_NL(self, t):
@@ -51,12 +50,12 @@ class MyLexer(object):
 
     def t_tail_PARAMETRS(self, t):
         r'\s*\((\s*(int|long|short)\s+[a-zA-Z][a-zA-Z0-9]{0,15}\s*,?)*\)\s*;'
-        t.lexer.begin('INITIAL')  # переходим в начальное состояние
+        t.lexer.begin('INITIAL')
         return t
 
     def t_tail_ANY(self, t):
         r'.'
-        t.lexer.begin('INITIAL')  # переходим в начальное состояние
+        t.lexer.begin('INITIAL')
         return t
 
     def t_tail_NL(self, t):
@@ -65,10 +64,8 @@ class MyLexer(object):
         t.lexer.begin('INITIAL')
         return t
 
-
-    # говорим что ничего не будем игнорировать
-    t_name_ignore = ''  # это кстати обязательная переменная, без неё нельзя создать новый state
-    t_tail_ignore = ''  # это кстати обязательная переменная, без неё нельзя создать новый state
+    t_name_ignore = ''
+    t_tail_ignore = ''
     t_ignore = ''
 
     # ну и куда же мы без обработки ошибок
@@ -77,13 +74,11 @@ class MyLexer(object):
         # t.lexer.skip(1)
         t.lexer.begin('INITIAL')
 
-    # а здесь мы обрабатываем ошибки. Кстати заметьте формат названия функции
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
         # t.lexer.skip(1)
         t.lexer.begin('INITIAL')
 
-    # а здесь мы обрабатываем ошибки. Кстати заметьте формат названия функции
     def t_tail_error(self, t):
         print("Illegal character in TAIL'%s'" % t.value[0])
         # t.lexer.skip(1)
@@ -97,7 +92,7 @@ class MyLexer(object):
 
     def __init__(self):
         # Build the lexer
-        self.lexer = lex.lex(module=self)
+        self.lexer = lex.lex(module=self, optimize=True)
 
 
 if __name__ == "__main__":
