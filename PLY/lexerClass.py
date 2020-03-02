@@ -49,7 +49,7 @@ class MyLexer(object):
         return t
 
     def t_tail_PARAMETRS(self, t):
-        r'\s*\((\s*(int|long|short)\s+[a-zA-Z][a-zA-Z0-9]{0,15}\s*,?)*\)\s*;'
+        r'\s*\((\s*(int|long|short)(\s+[a-zA-Z][a-zA-Z0-9]{0,15})?\s*,?)*\)\s*;'
         t.lexer.begin('INITIAL')
         return t
 

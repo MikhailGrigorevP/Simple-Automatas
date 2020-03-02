@@ -24,13 +24,13 @@ Type {
 }
 
 WhiteSpaces1 {
-				Alpha			FuncName		{ CounterInc(); }
+				Alpha (ch: String)			FuncName		{ CounterInc(); }
 				WhiteSpace		WhiteSpaces1	{}
 }
 
 FuncName {
-				Alpha [ ctxt.isValidName() ]			FuncName			{ CounterInc(); }
-				Digit [ ctxt.isValidName() ]			FuncName			{ CounterInc(); }
+				Alpha (ch: String) [ ctxt.isValidName() ]			FuncName			{ CounterInc(); createSubstring(ch) }
+				Digit (ch: String) [ ctxt.isValidName() ]			FuncName			{ CounterInc(); createSubstring(ch) }
 				WhiteSpace	    		                WhiteSpaces2    	{ CounterZero(); set_name(); clearSubstring(); }
 				OpenBracket		                        WhiteSpaces3	    { CounterZero(); set_name(); clearSubstring(); }
 }
@@ -50,11 +50,15 @@ WhiteSpaces3 {
 Type2 {
 				Alpha [ ctxt.isValidType() ]			Type2			        { CounterInc(); }
 				WhiteSpace	[ ctxt.checkType() ]		WhiteSpaces4    		{ CounterZero(); clearSubstring(); }
+                CloseBracket[ ctxt.checkType() ]		                    WhiteSpaces6		    { CounterZero(); clearSubstring(); }
+                Comma		[ ctxt.checkType() ]	                        WhiteSpaces3	        { CounterZero(); clearSubstring(); }
 }
 
 WhiteSpaces4 {
 				WhiteSpace		WhiteSpaces4		{ clearSubstring(); }
 				Alpha			OverFuncName		{ CounterZero(); CounterInc(); }
+                CloseBracket		                    WhiteSpaces6		    { CounterZero(); clearSubstring(); }
+                Comma			                        WhiteSpaces3	        { CounterZero(); clearSubstring(); }
 }
 
 OverFuncName {

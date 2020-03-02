@@ -62,6 +62,9 @@ class AppClass:
 	def CounterZero(self):
 		self.__counter = 0
 
+	def createSubstring(self, c):
+		self.__substring += c
+
 	def isValidType(self):
 		return self.__counter <= 5
 

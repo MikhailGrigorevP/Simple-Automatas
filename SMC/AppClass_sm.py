@@ -330,6 +330,34 @@ class Map1_Type2(Map1_Default):
         else:
             Map1_Default.Alpha(self, fsm)
         
+    def CloseBracket(self, fsm):
+        ctxt = fsm.getOwner()
+        if  ctxt.checkType()  :
+            fsm.getState().Exit(fsm)
+            fsm.clearState()
+            try:
+                ctxt.CounterZero()
+                ctxt.clearSubstring()
+            finally:
+                fsm.setState(Map1.WhiteSpaces6)
+                fsm.getState().Entry(fsm)
+        else:
+            Map1_Default.CloseBracket(self, fsm)
+        
+    def Comma(self, fsm):
+        ctxt = fsm.getOwner()
+        if  ctxt.checkType()  :
+            fsm.getState().Exit(fsm)
+            fsm.clearState()
+            try:
+                ctxt.CounterZero()
+                ctxt.clearSubstring()
+            finally:
+                fsm.setState(Map1.WhiteSpaces3)
+                fsm.getState().Entry(fsm)
+        else:
+            Map1_Default.Comma(self, fsm)
+        
     def WhiteSpace(self, fsm):
         ctxt = fsm.getOwner()
         if  ctxt.checkType()  :
@@ -355,6 +383,30 @@ class Map1_WhiteSpaces4(Map1_Default):
             ctxt.CounterInc()
         finally:
             fsm.setState(Map1.OverFuncName)
+            fsm.getState().Entry(fsm)
+
+
+    def CloseBracket(self, fsm):
+        ctxt = fsm.getOwner()
+        fsm.getState().Exit(fsm)
+        fsm.clearState()
+        try:
+            ctxt.CounterZero()
+            ctxt.clearSubstring()
+        finally:
+            fsm.setState(Map1.WhiteSpaces6)
+            fsm.getState().Entry(fsm)
+
+
+    def Comma(self, fsm):
+        ctxt = fsm.getOwner()
+        fsm.getState().Exit(fsm)
+        fsm.clearState()
+        try:
+            ctxt.CounterZero()
+            ctxt.clearSubstring()
+        finally:
+            fsm.setState(Map1.WhiteSpaces3)
             fsm.getState().Entry(fsm)
 
 

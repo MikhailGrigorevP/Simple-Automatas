@@ -34,7 +34,7 @@ class RecognizerRE:
 
                 # проверка на соответсвие РВ
             rex = re.match(r'^(int|long|short)\s+([a-zA-Z][a-zA-Z0-9]{0,15})\s*\((\s*(int|long|short)'
-                           r'\s+[a-zA-Z][a-zA-Z0-9]{0,15}\s*,?)*\)\s*;$', user_string)
+                           r'(\s+[a-zA-Z][a-zA-Z0-9]{0,15})?\s*,?)*\)\s*;$', user_string)
 
             if rex is not None:
                 print("- yes\n")
@@ -63,7 +63,7 @@ class RecognizerRE:
 
             # проверка на соответсвие РВ
             rex = re.match(r'^(int|long|short)\s+([a-zA-Z][a-zA-Z0-9]{0,15})\s*\((\s*(int|long|short)'
-                           r'\s+[a-zA-Z][a-zA-Z0-9]{0,15}\s*,?)*\)\s*;$', self.__strings[i])
+                           r'(\s+[a-zA-Z][a-zA-Z0-9]{0,15})?\s*,?)*\)\s*;$', self.__strings[i])
 
             if rex is not None:
                 count += 1

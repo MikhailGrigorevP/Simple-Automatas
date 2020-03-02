@@ -21,6 +21,7 @@ class MyParser(object):
     # def __del__(self):
 
     def check_string(self, code):
+        self.__Over_A.clear()
         if self.__file:
             self.__f = open(self.__result_file, 'w')
         result = self.parser.parse(code)
@@ -36,11 +37,13 @@ class MyParser(object):
         #    p[0] = p[1]
         # elif len(p) == 3:
         #    p[0] = p[1] + p[2]
+        #   p[0] = p[1]
+        #   p[0].append(p[2])
 
     def p_func(self, p):
         '''func : FUNCTYPE FUNCNAME PARAMETRS NL'''
         if self.__file:
-            self.__f.write(p[1] + p[2] + p[3] + ' - yes\n')
+            self.__f.write(str(p[1]) + str(p[2]) + str(p[3]) + ' - yes\n')
         if self.__Over_A.get(p[2]) is None:
             self.__Over_A.setdefault(p[2], 1)
         else:
@@ -57,19 +60,19 @@ class MyParser(object):
     def p_func_first_err_type(self, p):
         'func : FUNCTYPE err_list NL'
         if self.__file:
-            self.__f.write(p[1] + p[2] + ' - no\n')
+            self.__f.write(str(p[1]) + str(p[2]) + ' - no\n')
         # p[0] = p[1] + p[2] + ' - no\n'
 
     def p_func_second_err_type(self, p):
         'func : FUNCTYPE FUNCNAME err_list NL'
         if self.__file:
-            self.__f.write(p[1] + p[2] + p[3] + ' - no\n')
+            self.__f.write(str(p[1]) + str(p[2]) + str(p[3]) + ' - no\n')
         # p[0] = p[1] + p[2] + p[3] + ' - no\n'
 
     def p_func_forth_err_type(self, p):
         'func : FUNCTYPE FUNCNAME PARAMETRS err_list NL'
         if self.__file:
-            self.__f.write(p[1] + p[2] + p[3] + p[4] + ' - no\n')
+            self.__f.write(str(p[1]) + str(p[2]) + str(p[3]) + str(p[4]) + ' - no\n')
         # p[0] = p[1] + p[2] + p[3] + p[4] + ' - no\n'
 
     def p_err_list_type3(self, p):

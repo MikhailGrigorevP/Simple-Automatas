@@ -2,6 +2,7 @@ from collections import Counter
 import string
 import random
 
+DAMAGE_CHANCE = 0.98
 
 class Generator:
     # атрибуты класса
@@ -50,7 +51,7 @@ class Generator:
     def generate_type(self):
         type_name = ['int', 'short', 'long']
         func_type = type_name[random.randrange(3)]
-        if self.damage() > 0.95:
+        if self.damage() > DAMAGE_CHANCE:
             func_type = ''.join(random.choice(string.ascii_letters) for _ in range(4))
         else:
             func_type = type_name[random.randrange(3)]
@@ -59,11 +60,11 @@ class Generator:
     # генерировать имя функции
     def generate_func_name(self):
         func_name_length = random.randrange(15) + 1
-        if self.damage() > 0.98:
+        if self.damage() > DAMAGE_CHANCE:
             first_sym = random.choice(string.digits)
         else:
             first_sym = random.choice(string.ascii_letters)
-        if self.damage() > 0.98:
+        if self.damage() > DAMAGE_CHANCE:
             return first_sym +\
                 ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(func_name_length))
         else:
@@ -76,7 +77,7 @@ class Generator:
         generate_options_num = random.randrange(10)
         symbols = ['(', ')', ', ', ';', ' ']
 
-        if self.damage() < 0.95:
+        if self.damage() < DAMAGE_CHANCE:
             first_symbol = symbols[0]
             last_symbol = symbols[1]
         else:
@@ -85,15 +86,15 @@ class Generator:
 
         return first_symbol + \
             ''.join((self.generate_type() + ' ' + self.generate_func_name() +
-                     ((', ' if (self.damage() < 0.80) else symbols[random.randrange(4)])
+                     ((', ' if (self.damage() < DAMAGE_CHANCE-0.2) else symbols[random.randrange(4)])
                       if (i < generate_options_num - 1) else '')) for i in range(generate_options_num)) +\
             ''.join(last_symbol)
 
     # генерировать строку
     def generate_string(self):
         symbols = ['(', ')', ',', ';', ' ']
-        if self.damage() < 0.98:
-            if self.damage() < 0.98:
+        if self.damage() < DAMAGE_CHANCE:
+            if self.damage() < DAMAGE_CHANCE:
                 last_symbol = ';'
             else:
                 last_symbol = ';'.join(random.choice(string.ascii_letters + string.digits + string.punctuation))

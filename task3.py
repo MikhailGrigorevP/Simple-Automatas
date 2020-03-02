@@ -41,7 +41,8 @@ class RecognizerPLY(object):
             if user_string == "exit":
                 working = False
                 break
-
+            if user_string != "":
+                user_string += ("\n")
             # проверка на соответсвие РВ
             self.__parser.check_string(user_string)
             if self.__parser.get_A().keys():
