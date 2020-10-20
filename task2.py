@@ -30,8 +30,8 @@ class RecognizerSMC:
         print('Input your line or "exit" to exit:')
 
         while working:
-            user_string = input()
-            if user_string == "exit":
+            user_string = input().lower()
+            if user_string == "exit" or user_string == "e":
                 working = False
                 break
 
@@ -108,9 +108,9 @@ if __name__ == "__main__":
 
     while dialog:
         dialog = False
-        print('Hello, how do your want to input lines (file or console)')
-        input_type = input()
-        if input_type == "file":
+        print('Hello, how do your want to input lines (File or Console)')
+        input_type = input().lower()
+        if input_type == "file" or input_type == 'f':
             print("Input filename:")
             filename = input()
             all_strings = generator.Generator(1000000, filename).get_file_content()
@@ -118,9 +118,9 @@ if __name__ == "__main__":
             recognizer.check_strings_from_file()
             recognizer.analyze_overload()
             print("Data saved to files")
-            print("Show statistic (yes to show):")
+            print("Show statistic (y/n):")
             input_show = input()
-            if input_show == "yes":
+            if input_show == "yes" or input_show == "y":
                 Over_A = recognizer.get_Over()
                 for key in Over_A:
                     if Over_A.get(key) > 1:
@@ -133,7 +133,7 @@ if __name__ == "__main__":
                     f.close()
                 except IOError as e:
                     print("---- Error ----")
-        elif input_type == "console":
+        elif input_type == "console" or input_type == "c":
             recognizer = RecognizerSMC()
             recognizer.check_strings_from_console()
         else:
