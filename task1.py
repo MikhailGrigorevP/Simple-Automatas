@@ -37,7 +37,7 @@ class RecognizerRE:
                            r'(\s+[a-zA-Z][a-zA-Z0-9]{0,15})?\s*,?)*\)\s*;$', user_string)
 
             if rex is not None:
-                print("- yes\n")
+                print("- yes")
                 result = rex.group(2)
                 # добавляем её в массив
                 if self.__Over_A.get(result) is None:
@@ -45,7 +45,8 @@ class RecognizerRE:
                 else:
                     self.__Over_A[result] += 1
             else:
-                print("- no\n")
+                print("- no")
+            print("\n")
 
         print('Statistic: \n')
         for key in self.__Over_A:

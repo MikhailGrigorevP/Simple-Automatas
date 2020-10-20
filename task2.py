@@ -50,9 +50,9 @@ class RecognizerSMC:
                 print("- no\n")
 
         print('Statistic: \n')
-        for key in self.__Over_A:
-            if self.__Over_A.get(key) > 1:
-                print(str(key) + ' ' + str(self.__Over_A.get(key)) + '\n')
+        for k in self.__Over_A:
+            if self.__Over_A.get(k) > 1:
+                print(str(k) + ' ' + str(self.__Over_A.get(k)) + '\n')
 
     def check_strings_from_file(self):
         f_time = open(self.__time_file, 'w')
