@@ -57,15 +57,15 @@ class RecognizerPLY(object):
                 print("- no\n")
 
         print('Statistic: \n')
-        for key in self.__Over_A:
-            if self.__Over_A.get(key) > 1:
-                print(str(key) + ' ' + str(self.__Over_A.get(key)) + '\n')
+        for k in self.__Over_A:
+            if self.__Over_A.get(k) > 1:
+                print(str(key) + ' ' + str(self.__Over_A.get(k)) + '\n')
 
     def analyze_overload(self):
         f_overload = open(self.__overload_file, 'w')
-        for key in self.__Over_A:
-            if self.__Over_A.get(key) > 1:
-                f_overload.write(str(key) + ' ' + str(self.__Over_A.get(key)) + '\n')
+        for k in self.__Over_A:
+            if self.__Over_A.get(k) > 1:
+                f_overload.write(str(k) + ' ' + str(self.__Over_A.get(k)) + '\n')
         f_overload.close()
 
     def get_Over(self):
