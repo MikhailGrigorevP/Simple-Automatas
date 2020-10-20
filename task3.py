@@ -81,9 +81,9 @@ if __name__ == "__main__":
 
     while dialog:
         dialog = False
-        print('Hello, how do your want to input lines (file or console)')
-        input_type = input()
-        if input_type == "file":
+        print('Hello, how do your want to input lines (File or Console)')
+        input_type = input().lower()
+        if input_type == "file" or input_type == "f":
             print("Input filename:")
             filename = input()
             generator.Generator(10000, filename)
@@ -92,8 +92,8 @@ if __name__ == "__main__":
             recognizer.analyze_overload()
             print("Data saved to files")
             print("Show statistic (yes to show):")
-            input_show = input()
-            if input_show == "yes":
+            input_show = input().lower()
+            if input_show == "yes" or input_show == 'y':
                 Over_A = recognizer.get_Over()
                 for key in Over_A:
                     if Over_A.get(key) > 1:
@@ -107,7 +107,7 @@ if __name__ == "__main__":
                 except IOError as e:
                     print("---- Error ----")
 
-        elif input_type == "console":
+        elif input_type == "console" or input_type == 'c':
             recognizer = RecognizerPLY(True)
             recognizer.check_strings_from_console()
         else:
