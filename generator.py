@@ -104,8 +104,16 @@ class Generator:
 
     # генерировать файл
     def generate_file(self):
+        print("Generation started:", end='')
+        i = 0.1
         for _ in range(self.__n):
             self.__f.write(self.generate_string() + '\n')
+            if _ / self.__n > i:
+                print("█", end='')
+                i += 0.1
+            if _ == (self.__n - 1):
+                print("█", end='\n')
+        print("File has been generated")
 
 
 if __name__ == "__main__":
